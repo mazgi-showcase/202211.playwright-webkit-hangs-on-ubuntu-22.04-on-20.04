@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "show-report": "playwright show-report --host=0.0.0.0",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.27.1"
+  }
+}

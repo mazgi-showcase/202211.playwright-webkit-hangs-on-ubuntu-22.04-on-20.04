@@ -1,6 +1,0 @@
-**/dist/
-**/*.env
-**/.next/
-**/node_modules/
-**/stories/
-**/.storybook/
