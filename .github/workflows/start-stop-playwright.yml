@@ -1,0 +1,74 @@
+name: start-stop-playwright
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    # min, hour, day, month, day of the week
+    - cron: "0 0 1 * *"
+env:
+  DOCKER_BUILDKIT: 1
+jobs:
+  test:
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        runner:
+          # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+          - ubuntu-22.04
+          - ubuntu-20.04 # ubuntu-latest
+        service-ubuntu-version:
+          - 22.04
+          - 20.04
+        service-node-version:
+          - 18
+          - 16
+          - 14
+        playwright-project:
+          - chromium
+          - firefox
+          - webkit
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v3
+      #
+      # Prepare
+      - name: Export UIDs as environment variables
+        run: |
+          echo "GID=$(id -g)" >> .env
+          echo "UID=$(id -u)" >> .env
+      - name: Generate the driver name - ubuntu:${{ matrix.service-ubuntu-version }} node:${{ matrix.service-node-version }}"
+        run: |
+          echo SERVICE_NAME="webkit-driver-u${{ matrix.service-ubuntu-version }}-n${{ matrix.service-node-version }}" >> $GITHUB_ENV
+      - name: Show the config
+        run: |
+          docker compose config ${SERVICE_NAME}
+      - name: Pull containers
+        timeout-minutes: 4
+        run: |
+          docker compose pull
+      - name: Build containers
+        timeout-minutes: 4
+        run: |
+          docker compose build ${SERVICE_NAME}
+      - name: Start mock
+        timeout-minutes: 1
+        run: |
+          docker compose up mock --detach
+      - name: Set up playwright
+        timeout-minutes: 4
+        run: |
+          docker compose run ${SERVICE_NAME} npm clean-install
+          docker compose run ${SERVICE_NAME} npx playwright install
+      #
+      # Run tests
+      - name: Test - ${{ matrix.playwright-project }}
+        timeout-minutes: 4
+        run: |
+          docker compose run ${SERVICE_NAME} npm run test -- --project=${{ matrix.playwright-project }}
+      #
+      # Clean up
+      - name: Stop the service
+        timeout-minutes: 1
+        run: |
+          docker compose down
