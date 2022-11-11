@@ -63,7 +63,7 @@ jobs:
       #
       # Run tests
       - name: Test - ${{ matrix.playwright-project }}
-        timeout-minutes: 4
+        timeout-minutes: 2
         run: |
           docker compose run ${SERVICE_NAME} npm run test -- --project=${{ matrix.playwright-project }}
       #
