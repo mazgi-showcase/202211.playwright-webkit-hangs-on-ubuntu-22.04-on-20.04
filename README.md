@@ -3,7 +3,7 @@
 [![start-stop-playwright](https://github.com/mazgi-showcase/202211.playwright-webkit-hangs-on-ubuntu-22.04-on-20.04/actions/workflows/start-stop-playwright.yml/badge.svg)](https://github.com/mazgi-showcase/202211.playwright-webkit-hangs-on-ubuntu-22.04-on-20.04/actions/workflows/start-stop-playwright.yml)  
 :point_up: Is the action didn't successful? JUST AS PLANNED :new_moon_with_face:
 
-WebKit will hang in the specific combination if you use WebKit with PlayWright, Docker, and Ubuntu.  
+WebKit will hang in the specific combination if you use WebKit with Playwright, Docker, and Ubuntu.  
 This repository is a demo repository for that behavior.  
 Please check the results of GitHub Actions.
 
