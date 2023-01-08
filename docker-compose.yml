@@ -15,6 +15,8 @@ x-service-node-ubuntu-base: &node-ubuntu-base
       npm clean-install
       npx playwright install
       sleep infinity
+  depends_on:
+    - mock
   environment: &node-ubuntu-base-environment
     MOCK_URL: http://mock
   # https://docs.docker.com/compose/compose-file/compose-file-v3/#build
@@ -43,8 +45,6 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 18
         UBUNTU_VERSION: 22.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:22.04-18
   webkit-driver-u20.04-n18:
     <<: *node-ubuntu-base
@@ -54,8 +54,6 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 18
         UBUNTU_VERSION: 20.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:20.04-18
 
   # Node 16.x
@@ -67,8 +65,6 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 16
         UBUNTU_VERSION: 22.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:22.04-16
   webkit-driver-u20.04-n16:
     <<: *node-ubuntu-base
@@ -78,8 +74,6 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 16
         UBUNTU_VERSION: 20.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:20.04-16
 
   # Node 14.x
@@ -91,8 +85,6 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 14
         UBUNTU_VERSION: 22.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:22.04-14
   webkit-driver-u20.04-n14:
     <<: *node-ubuntu-base
@@ -102,11 +94,9 @@ services:
         <<: *node-ubuntu-base-build-args
         NODE_VERSION: 14
         UBUNTU_VERSION: 20.04
-    depends_on:
-      - mock
     image: local.local/ubuntu-node:20.04-14
 
-version: '3.9'
+version: "3.9"
 volumes:
   home-node:
     driver: local
