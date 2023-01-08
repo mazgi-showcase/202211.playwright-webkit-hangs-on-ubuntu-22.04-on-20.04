@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "playwright:install": "playwright install",
     "show-report": "playwright show-report --host=0.0.0.0",
     "test": "playwright test"
   },

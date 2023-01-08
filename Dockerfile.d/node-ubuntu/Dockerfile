@@ -5,15 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG GID=0
 ARG NODE_VERSION=18
 ARG UID=0
-ENV GID=${GID:-0}
-ENV NODE_VERSION=${NODE_VERSION:-18}
-ENV UID=${UID:-0}
 
-RUN :\
-  : Create the node user and working directory\
-  && groupadd --gid ${GID} node || true\
-  && useradd --uid ${UID} --gid ${GID} --shell /bin/bash --create-home node\
-  && :
 RUN :\
   && : Install basic packages\
   && echo 'apt::install-recommends "false";' > /etc/apt/apt.conf.d/no-install-recommends\
@@ -39,5 +31,10 @@ RUN :\
   && rm -rf /tmp/*\
   && rm -rf /var/lib/apt/\
   && rm -rf /var/log/*\
+  && :
+RUN :\
+  : Create the node user and working directory\
+  && groupadd --gid ${GID} node || true\
+  && useradd --uid ${UID} --gid ${GID} --shell /bin/bash --create-home node\
   && :
 USER node
