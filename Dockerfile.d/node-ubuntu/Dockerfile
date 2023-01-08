@@ -5,9 +5,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG GID=0
 ARG NODE_VERSION=18
 ARG UID=0
-ENV GID=${GID:-0}
-ENV NODE_VERSION=${NODE_VERSION:-18}
-ENV UID=${UID:-0}
 
 RUN :\
   : Create the node user and working directory\
