@@ -55,11 +55,32 @@ jobs:
         timeout-minutes: 1
         run: |
           docker compose up mock --detach
-      - name: Set up playwright
+      - name: Set up the driver - npm
         timeout-minutes: 4
         run: |
           docker compose run ${SERVICE_NAME} npm clean-install
-          docker compose run ${SERVICE_NAME} npx playwright install
+      - name: Set up the driver - Playwright browser
+        timeout-minutes: 4
+        run: |
+          docker compose run ${SERVICE_NAME} npm run playwright:install
+      #
+      # Show information
+      - name: Show the system info
+        timeout-minutes: 1
+        run: |
+          docker compose run ${SERVICE_NAME} uname -a
+      - name: Show the release info
+        timeout-minutes: 1
+        run: |
+          docker compose run ${SERVICE_NAME} cat /etc/lsb-release
+      - name: Check the Node.js binary
+        timeout-minutes: 1
+        run: |
+          docker compose run ${SERVICE_NAME} which node
+      - name: Show the Node.js version
+        timeout-minutes: 1
+        run: |
+          docker compose run ${SERVICE_NAME} node --version
       #
       # Run tests
       - name: Test - ${{ matrix.playwright-project }}

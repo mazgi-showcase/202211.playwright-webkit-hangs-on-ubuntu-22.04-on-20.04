@@ -13,7 +13,7 @@ x-service-node-ubuntu-base: &node-ubuntu-base
     - -c
     - |
       npm clean-install
-      npx playwright install
+      npm run playwright:install
       sleep infinity
   depends_on:
     - mock
