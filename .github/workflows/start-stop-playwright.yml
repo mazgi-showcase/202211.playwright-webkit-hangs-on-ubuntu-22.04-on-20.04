@@ -62,7 +62,7 @@ jobs:
       - name: Set up the driver - Playwright browser
         timeout-minutes: 4
         run: |
-          docker compose run ${SERVICE_NAME} npm run playwright:install
+          docker compose run ${SERVICE_NAME} npm run playwright:install -- ${{ matrix.playwright-project }}
       #
       # Show information
       - name: Show the system info
